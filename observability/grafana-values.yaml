@@ -195,11 +195,6 @@ alerting:
             type: prometheus-alertmanager
             settings:
               url: http://observability-alertmanager.monitoring.svc.cluster.local:9093
-          - uid: ntfy-lab
-            type: webhook
-            settings:
-              url: http://ntfy.monitoring.svc.cluster.local/ai-pi-alerts
-              httpMethod: POST
 
   policies.yaml:
     apiVersion: 1

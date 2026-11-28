@@ -9,7 +9,7 @@ Host OS work (users, sudo, NTP, SSH keys, DietPi) lives in a **local** git repo,
 | Host | Role |
 |---|---|
 | `pi-cluster` | k3s control plane (Pironman 5). Grok, Slate MCP, and Ansible MCP run here. |
-| `argo-pi` | k3s worker. Prometheus, Grafana, Loki, Alertmanager, ntfy. |
+| `argo-pi` | k3s worker. Prometheus, Grafana, Loki, Alertmanager. |
 | `ai-pi` | k3s worker + Hailo-10H AI HAT. `hailo-genai.service` and Open WebUI. |
 | `pi-hole` | Pi Zero 2 W on argo-pi ethernet. Chrony NTP, node_exporter, blackbox. Not a k3s node. |
 

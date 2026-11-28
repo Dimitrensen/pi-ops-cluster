@@ -13,7 +13,7 @@ server:
     size: 5Gi
     storageClass: local-path
 
-# Grafana unified alerting sends here and also POSTs to ntfy (topic ai-pi-alerts).
+# Grafana unified alerting sends here. Firing alerts show in Grafana and Alertmanager.
 alertmanager:
   enabled: true
   nodeSelector:
