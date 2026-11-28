@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ntfy
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: pi-cluster-gitops
+    app.kubernetes.io/component: observability
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Dimitrensen/pi-ops-cluster.git
+    targetRevision: HEAD
+    path: observability/ntfy
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

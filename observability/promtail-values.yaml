@@ -1,0 +1,11 @@
+# DaemonSet on the three k3s nodes. Does not run on pi-hole.
+config:
+  clients:
+    - url: http://loki.monitoring.svc.cluster.local:3100/loki/api/v1/push
+
+resources:
+  requests:
+    cpu: 25m
+    memory: 48Mi
+  limits:
+    memory: 96Mi

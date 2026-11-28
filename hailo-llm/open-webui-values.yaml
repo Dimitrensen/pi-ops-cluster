@@ -14,6 +14,8 @@ ollamaUrls:
 # Open WebUI shows that as "Server Connection Error". These settings leave
 # one plain chat request: no builtin tools, no title, tags, or follow-up call.
 extraEnvVars:
+  - name: WEBUI_AUTH
+    value: "False"
   - name: ENABLE_PERSISTENT_CONFIG
     value: "False"
   - name: ENABLE_TITLE_GENERATION

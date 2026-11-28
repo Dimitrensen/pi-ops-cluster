@@ -13,8 +13,7 @@ server:
     size: 5Gi
     storageClass: local-path
 
-# Grafana unified alerting sends here. No Slack/email receiver yet; firing
-# alerts show in the Alertmanager UI and in Grafana.
+# Grafana unified alerting sends here and also POSTs to ntfy (topic ai-pi-alerts).
 alertmanager:
   enabled: true
   nodeSelector:
