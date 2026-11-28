@@ -1,19 +1,6 @@
 ---
-- name: Passwordless sudo for dimi
-  hosts: k3s
-  become: true
-  roles:
-    - sudoers
-
 - name: Deploy discreet health checks
   hosts: k3s
   become: true
   roles:
     - healthcheck
-
-- name: Pi Zero user dimi and chrony for the lab
-  hosts: pi_hole
-  become: true
-  roles:
-    - pihole_user
-    - pihole_ntp
