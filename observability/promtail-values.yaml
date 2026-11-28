@@ -1,11 +1,48 @@
 # DaemonSet on the three k3s nodes. Does not run on pi-hole.
+# Journal scrape is ssh.service only (Accepted / Failed publickey).
+# Host journals live in /run/log/journal (volatile); /var/log/journal is empty.
 config:
   clients:
     - url: http://loki.monitoring.svc.cluster.local:3100/loki/api/v1/push
+  snippets:
+    extraScrapeConfigs: |
+      - job_name: journal-ssh
+        journal:
+          max_age: 12h
+          matches: _SYSTEMD_UNIT=ssh.service
+          labels:
+            job: ssh
+        relabel_configs:
+          - source_labels: ['__journal__hostname']
+            target_label: nodename
+          - source_labels: ['__journal__systemd_unit']
+            target_label: unit
+
+extraVolumes:
+  - name: journal
+    hostPath:
+      path: /var/log/journal
+  - name: journal-run
+    hostPath:
+      path: /run/log/journal
+  - name: machine-id
+    hostPath:
+      path: /etc/machine-id
+
+extraVolumeMounts:
+  - name: journal
+    mountPath: /var/log/journal
+    readOnly: true
+  - name: journal-run
+    mountPath: /run/log/journal
+    readOnly: true
+  - name: machine-id
+    mountPath: /etc/machine-id
+    readOnly: true
 
 resources:
   requests:
     cpu: 25m
     memory: 48Mi
   limits:
-    memory: 96Mi
+    memory: 128Mi

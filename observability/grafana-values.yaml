@@ -136,6 +136,82 @@ dashboards:
             }
           ]
         }
+    ssh-logins:
+      json: |
+        {
+          "uid": "ssh-logins",
+          "title": "SSH logins",
+          "tags": ["ssh", "lab"],
+          "timezone": "browser",
+          "refresh": "1m",
+          "schemaVersion": 39,
+          "time": { "from": "now-24h", "to": "now" },
+          "description": "sshd Accepted/Failed on pi-cluster, ai-pi, argo-pi. User is dimi; source IP is in the line. 100.117.94.99 and 127.0.0.1 are pi-cluster. 100.109.110.83 toshiba-laptop. 100.109.132.39 samsung-laptop.",
+          "panels": [
+            {
+              "id": 1,
+              "type": "timeseries",
+              "title": "Accepted publickey per node",
+              "gridPos": { "h": 8, "w": 24, "x": 0, "y": 0 },
+              "datasource": { "type": "loki", "uid": "loki" },
+              "targets": [
+                {
+                  "refId": "A",
+                  "expr": "sum by (nodename) (count_over_time({job=\"ssh\"} |= `Accepted publickey` [5m]))",
+                  "legendFormat": "{{nodename}}",
+                  "queryType": "range",
+                  "datasource": { "type": "loki", "uid": "loki" }
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "type": "logs",
+              "title": "Accepted (user and source IP in the line)",
+              "gridPos": { "h": 10, "w": 24, "x": 0, "y": 8 },
+              "datasource": { "type": "loki", "uid": "loki" },
+              "options": {
+                "showTime": true,
+                "showLabels": true,
+                "wrapLogMessage": true,
+                "enableLogDetails": true,
+                "sortOrder": "Descending",
+                "dedupStrategy": "none"
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "expr": "{job=\"ssh\"} |= `Accepted publickey` | regexp `Accepted publickey for (?P<user>\\S+) from (?P<src_ip>\\S+)` | line_format `{{.nodename}}  {{.user}}  {{.src_ip}}`",
+                  "queryType": "range",
+                  "datasource": { "type": "loki", "uid": "loki" }
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "type": "logs",
+              "title": "Failed or invalid",
+              "gridPos": { "h": 8, "w": 24, "x": 0, "y": 18 },
+              "datasource": { "type": "loki", "uid": "loki" },
+              "options": {
+                "showTime": true,
+                "showLabels": true,
+                "wrapLogMessage": true,
+                "enableLogDetails": true,
+                "sortOrder": "Descending",
+                "dedupStrategy": "none"
+              },
+              "targets": [
+                {
+                  "refId": "A",
+                  "expr": "{job=\"ssh\"} |~ `Failed publickey|Failed password|Invalid user|authentication failure`",
+                  "queryType": "range",
+                  "datasource": { "type": "loki", "uid": "loki" }
+                }
+              ]
+            }
+          ]
+        }
 
 alerting:
   ai-pi-thermal.yaml:

@@ -26,11 +26,11 @@ Remote access is Tailscale MagicDNS (`*.tail021710.ts.net`).
 | Thing | URL / port |
 |---|---|
 | Grafana | http://pi-cluster.tail021710.ts.net:30300 |
-| ai-pi temperature | Grafana → Lab → **ai-pi temperature** (alert at 70 °C for 2 minutes) |
-| ntfy (phone/desktop subscribe) | http://pi-cluster.tail021710.ts.net:30880/ai-pi-alerts |
-| Loki | in-cluster; Grafana Explore → Loki. Promtail DaemonSet on the three k3s nodes ships pod logs. The Zero does not run Promtail. |
+| ai-pi temperature | Grafana → Lab → **ai-pi temperature** (alert at 70 °C for 2 minutes; Grafana UI only) |
+| SSH logins | Grafana → Lab → **SSH logins**. Promtail ships `ssh.service` journal from the three k3s nodes. |
+| Loki | Grafana Explore → Loki. Promtail on the three k3s nodes ships pod logs and SSH journal. |
 
-Argo apps: `pi-cluster-root`, `hailo-qwen`, `observability`, `loki`, `promtail`, `ntfy`.
+Argo apps: `pi-cluster-root`, `hailo-qwen`, `observability`, `loki`, `promtail`.
 
 ## Ansible in this repo
 
