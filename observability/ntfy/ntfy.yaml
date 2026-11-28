@@ -19,7 +19,7 @@ spec:
         kubernetes.io/hostname: argo-pi
       containers:
         - name: ntfy
-          image: docker.io/binwiederhier/ntfy:v2.11.3
+          image: docker.io/binwiederhier/ntfy:v2.38.3
           args: ["serve", "--listen-http", ":80"]
           ports:
             - name: http
